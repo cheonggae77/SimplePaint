@@ -7,7 +7,12 @@
 - 사용한 컨트롤:
 	- Label, Button, PictureBox, ComboBox, TrackBar, GroupBox
 - 사용한 기술과 구현한 기능:
-	
+	Label: UI 요소 설명
+	Button: 도형 선택 버튼, 그림 저장 및 열기
+	PictureBox: 그림을 그리는 캔버스
+	ComboBox: 색상 선택
+	TrackBar: 선 굵기 선택
+	GroupBox: 도형 선택 그룹
 
 
 ## 실행 화면 (과제1)
