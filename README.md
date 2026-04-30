@@ -58,8 +58,13 @@
 ## 실행 화면 (과제4)
 - 코드의 실행 스크린샷과 구현 내용 설명
 
-![실행화면](img/screenshot-4.png)
+![실행화면](img/과제4_1.png)
+![실행화면](img/과제4_2.png)
+![실행화면](img/과제4_3.png)
+![실행화면](img/과제4_4.png)
 
 - 구현한 내용 (위 그림 참조)
-- 패스워드 입력 내용 숨기기 : UseSystemPasswordChar 속성 이용
-- Placeholder 메시지를 표시할 때는 UseSystemPasswordChar 없애기
+	- 이미지를 캔버스에 표시 : OpenFileDialog에서 선택한 이미지 파일을 Bitmap 객체로 로드하고, PictureBox의 Image 속성에 할당해서 캔버스에 표시
+	- 이미지 크기에 맞게 PictureBox 크기 조정 : OpenFileDialog에서 선택한 이미지의 크기에 맞게 PictureBox의 SizeMode 속성을 AutoSize로 설정해서 이미지가 캔버스에 맞게 표시되도록 구현
+	- 스크롤바 추가 : PictureBox의 SizeMode 속성을 AutoSize로 설정하면 이미지가 PictureBox보다 클 때 스크롤바가 자동으로 나타나도록 구현
+	- 확대 및 축소 기능 : TrackBar를 이용해서 확대 및 축소 비율을 조절할 수 있도록 구현. TrackBar의 ValueChanged 이벤트에서 PictureBox의 SizeMode 속성을 Zoom으로 설정하고, Size 속성을 조절해서 이미지 크기를 변경
