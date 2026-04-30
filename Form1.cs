@@ -56,6 +56,14 @@ namespace SimplePaint
             trbLineWidth.ValueChanged += trbLineWidth_ValueChanged;
 
             btnSaveFile.Click += BtnSaveFile_Click;
+            btnOpenFile.Click += BtnOpenFile_Click;
+            btnPlus.Click += BtnPlus_Click;
+            btnMinus.Click += BtnMinus_Click;
+
+            // 스크롤바를 지원하기 위한 설정 (AutoScroll 가능성을 위해 패널 내부에 picCanvas가 있다고 가정하거나 크기 모드 변경)
+            // 여기서는 picCanvas의 Mode를 설정합니다. 스크롤바는 AutoScroll이 켜져있는 부모 컨테이너(Form 등)에서 작동합니다.
+            this.AutoScroll = true;
+            picCanvas.SizeMode = PictureBoxSizeMode.AutoSize;
         }
 
         private void PicCanvas_MouseDown(object sender, MouseEventArgs e)
@@ -193,6 +201,105 @@ namespace SimplePaint
             }
         }
 
+        private void BtnOpenFile_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "Image Files|*.png;*.jpg;*.jpeg;*.bmp;*.gif";
+                openFileDialog.Title = "Open an Image File";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    if (string.IsNullOrWhiteSpace(openFileDialog.FileName))
+                        return;
+
+                    try
+                    {
+                        // 기존 리소스 백업
+                        Bitmap oldBitmap = canvasBitmap;
+                        Graphics oldGraphics = canvasGraphics;
+                        Image oldImage = picCanvas.Image;
+
+                        // 새 이미지를 로드하고 canvasBitmap에 할당
+                        using (Image openedImage = Image.FromFile(openFileDialog.FileName))
+                        {
+                            canvasBitmap = new Bitmap(openedImage);
+                            canvasGraphics = Graphics.FromImage(canvasBitmap);
+
+                            // PictureBox 크기를 이미지에 맞춤
+                            picCanvas.Width = canvasBitmap.Width;
+                            picCanvas.Height = canvasBitmap.Height;
+
+                            picCanvas.Image = canvasBitmap;
+                        }
+
+                        // 새 이미지 할당 성공 후, 기존 리소스 안전하게 해제
+                        if (oldImage != null && oldImage != oldBitmap) oldImage.Dispose();
+                        oldGraphics?.Dispose();
+                        oldBitmap?.Dispose();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error opening file: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        private void Zoom(float factor)
+        {
+            if (canvasBitmap == null) return;
+
+            try
+            {
+                int newWidth = (int)(canvasBitmap.Width * factor);
+                int newHeight = (int)(canvasBitmap.Height * factor);
+
+                // 너무 작거나 너무 큰 이미지 방지 (GDI+ 예외 방지)
+                if (newWidth < 10 || newHeight < 10 || newWidth > 10000 || newHeight > 10000) return;
+
+                // 새로운 크기의 비트맵 생성
+                Bitmap newBitmap = new Bitmap(newWidth, newHeight);
+
+                using (Graphics g = Graphics.FromImage(newBitmap))
+                {
+                    // 고품질 보간 설정
+                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                    g.DrawImage(canvasBitmap, 0, 0, newWidth, newHeight);
+                }
+
+                // 기존 리소스를 보관
+                Bitmap oldBitmap = canvasBitmap;
+                Graphics oldGraphics = canvasGraphics;
+
+                // 새 리소스 할당
+                canvasBitmap = newBitmap;
+                canvasGraphics = Graphics.FromImage(newBitmap);
+
+                // PictureBox에 새 이미지를 먼저 할당하여 크래시 방지
+                picCanvas.Image = canvasBitmap;
+                picCanvas.Width = newWidth;
+                picCanvas.Height = newHeight;
+
+                // 이제 기존 리소스 안전하게 해제
+                oldGraphics?.Dispose();
+                oldBitmap?.Dispose();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("이미지 크기를 변경하는 중 오류가 발생했습니다: " + ex.Message, "경고", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void BtnPlus_Click(object sender, EventArgs e)
+        {
+            Zoom(1.2f); // 20% 확대
+        }
+
+        private void BtnMinus_Click(object sender, EventArgs e)
+        {
+            Zoom(0.8f); // 20% 축소
+        }
 
 
     }

@@ -40,6 +40,8 @@
             picCanvas = new PictureBox();
             btnOpenFile = new Button();
             btnSaveFile = new Button();
+            btnPlus = new Button();
+            btnMinus = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -180,11 +182,35 @@
             btnSaveFile.Text = "저장";
             btnSaveFile.UseVisualStyleBackColor = false;
             // 
+            // btnPlus
+            // 
+            btnPlus.BackColor = SystemColors.ActiveCaption;
+            btnPlus.Font = new Font("맑은 고딕", 20F);
+            btnPlus.Location = new Point(825, 24);
+            btnPlus.Name = "btnPlus";
+            btnPlus.Size = new Size(88, 69);
+            btnPlus.TabIndex = 6;
+            btnPlus.Text = "+";
+            btnPlus.UseVisualStyleBackColor = false;
+            // 
+            // btnMinus
+            // 
+            btnMinus.BackColor = Color.Green;
+            btnMinus.Font = new Font("맑은 고딕", 20F);
+            btnMinus.Location = new Point(950, 24);
+            btnMinus.Name = "btnMinus";
+            btnMinus.Size = new Size(88, 69);
+            btnMinus.TabIndex = 7;
+            btnMinus.Text = "-";
+            btnMinus.UseVisualStyleBackColor = false;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1082, 853);
+            Controls.Add(btnMinus);
+            Controls.Add(btnPlus);
             Controls.Add(btnSaveFile);
             Controls.Add(btnOpenFile);
             Controls.Add(picCanvas);
@@ -219,5 +245,7 @@
         private PictureBox picCanvas;
         private Button btnOpenFile;
         private Button btnSaveFile;
+        private Button btnPlus;
+        private Button btnMinus;
     }
 }
