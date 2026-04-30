@@ -44,3 +44,22 @@
 	- 마우스를 땠을때 IsDrawing 변수를 false로 설정하고 도형을 그리는 함수 호출
 	- 버튼 클릭으로 도형을 선택할 때마다 선택된 도형 변수 업데이트
 	- switch문을 이용해서 선택된 도형에 따라 직선, 사각형, 원을 그리는 함수 호출 및 색상 선택
+
+## 실행 화면 (과제3)
+- 코드의 실행 스크린샷과 구현 내용 설명
+
+![실행화면](img/과제3_1.png)
+![실행화면](img/과제3_2.png)
+
+- 구현한 내용 (위 그림 참조)
+	- 그림 저장 : SaveFileDialog를 이용해서 그림을 저장할 위치와 파일 이름을 선택하고, Bitmap 객체를 이용해서 PictureBox의 이미지를 저장 
+	- 파일 확장자 : SaveFileDialog에서 필터를 설정해서 PNG, JPEG, BMP 형식으로 저장할 수 있도록 구현
+
+## 실행 화면 (과제4)
+- 코드의 실행 스크린샷과 구현 내용 설명
+
+![실행화면](img/screenshot-4.png)
+
+- 구현한 내용 (위 그림 참조)
+- 패스워드 입력 내용 숨기기 : UseSystemPasswordChar 속성 이용
+- Placeholder 메시지를 표시할 때는 UseSystemPasswordChar 없애기
